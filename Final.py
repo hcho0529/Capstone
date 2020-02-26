@@ -48,12 +48,6 @@ df["IOH"] = np.where(df["BOH_PKG"] < 0, 0, df["BOH_PKG"])
 df.drop(["BOH_PKG"], axis =1, inplace = True)
 
 
-# In[ ]:
-
-
-
-
-
 # In[59]:
 
 
@@ -74,12 +68,6 @@ now.drop('SALES', axis = 1, inplace = True)
 
 # merge average weekly sales value to filtered(week 52) data 
 merge = pd.merge(now, wf, how = "left", left_on = ["STORE_NBR", "NDC_NBR"], right_on = ["STORE_NBR", "NDC_NBR"])
-
-
-# In[ ]:
-
-
-
 
 
 # In[66]:
@@ -103,18 +91,6 @@ merge.drop(["index"], axis = 1, inplace = True)
 
 # save dataframe to csv file
 merge.to_csv("WOS08.csv")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
 
 # # COMBINE MODIFIED RAW DATA
@@ -192,12 +168,6 @@ df["EXC_UNIT05"] = np.where((df["W_SALES"] < 0.0001) & (df["LEFT05"] == 0), df["
 df["EXC_UNIT10"] = np.where((df["W_SALES"] < 0.0001) & (df["LEFT10"] == 0), df["EXC_UNIT10"] - 1, df["EXC_UNIT10"])
 
 
-# In[ ]:
-
-
-
-
-
 # In[87]:
 
 
@@ -217,12 +187,6 @@ price = pd.read_csv("price.csv")
 
 
 price.drop(["Unnamed: 0", "SKU_NBR", "AWP/PKG"], axis = 1, inplace = True)
-
-
-# In[ ]:
-
-
-
 
 
 # # MERGE PRICE WITH DATA
@@ -247,24 +211,11 @@ df_price["DOLLAR03"] = df_price["EXC_UNIT03"] * df_price["AWP"]
 df_price["DOLLAR05"] = df_price["EXC_UNIT05"] * df_price["AWP"]
 df_price["DOLLAR10"] = df_price["EXC_UNIT10"] * df_price["AWP"]
 
-
-# In[ ]:
-
-
-
-
-
 # In[95]:
 
 
 # Creating new csv file
 df_price.to_csv("complete.csv")
-
-
-# In[ ]:
-
-
-
 
 
 # In[96]:
@@ -293,18 +244,6 @@ q3.to_csv("201839.csv")
 q4.to_csv("201852.csv")
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
 # # FILTERING NON_CONTROLLED DRUGS
 
 # In[99]:
@@ -322,18 +261,6 @@ control.drop(["Unnamed: 0", "SKU_NBR", "NDC_DSC", "PKG_SIZE", "SCHD_DRUG_CD"], a
 merge = pd.merge(q4, control, how = "left", left_on = "NDC_NBR", right_on = "NDC_NBR")
 merged = merge[merge["CONTROL_IND"] == "NON-CONTROL"].reset_index()
 merged_con = merge[merge["CONTROL_IND"] == "CONTROL"].reset_index()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
 
 # # RESULT
@@ -373,15 +300,6 @@ print("TWOS  5 -> Top 20 products are ",(((df05["DOLLAR05"].sum()/1000000)/(q4["
 print("TWOS 10 -> Top 20 products are ",(((df10["DOLLAR10"].sum()/1000000)/(q4["DOLLAR10"].sum()/1000000))*100).round(2),"% of total dollar value")
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
 # Below is using only Target WOS of 5 weeks
 
 
@@ -405,14 +323,6 @@ df = pd.DataFrame(create)
 df
 
 
-# In[ ]:
-
-
-
-
-
-# In[211]:
-
 
 # OPERATIONAL GUIDELINE
 
@@ -431,12 +341,6 @@ operation.head(50)
 operation.to_csv("operation.csv")
 
 
-# In[ ]:
-
-
-
-
-
 # In[210]:
 
 
@@ -446,18 +350,6 @@ S = 3
 
 # Return top 20 SKUs and quantities
 df05[df05["STORE_NBR"] == 3][["NDC_NBR", "EXC_UNIT05", "DOLLAR05"]]
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
 
 # # GRAPHS
@@ -490,13 +382,6 @@ plt.plot(x, y, "b")
 plt.xlabel("# of SKUs per store sent to mail centers (units)")
 plt.ylabel("Percent of total potential inventory reduction (%)")
 plt.title("Proportion of total potential inventory reduction \n by # of SKUs sent by each store to the mail centers")
-
-
-# In[ ]:
-
-
-
-
 
 # In[164]:
 
@@ -536,26 +421,8 @@ plt.title("Histogram of # of SKUs with excess inventory")
 print("Stores have mean of", round(temp1["NDC_NBR"].mean(),1),"excess SKUs with stdev of", round(temp1["NDC_NBR"].std(),1))
 
 
-# In[ ]:
-
-
-
-
-
 # In[182]:
 
 
 print("On average,", round((temp1["NDC_NBR"].mean() / temp["NDC_NBR"].mean())*100, 1),"% of SKUs are excess at each store")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 
